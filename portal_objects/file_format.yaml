@@ -1,0 +1,27 @@
+################################################################
+# CNP
+################################################################
+name: cnp
+extension: cnp
+description: Format used by Hartwig Medical Foundation to represent GC profile.
+uuid: 417061de-0443-4bdc-b40d-75dde27e8237
+
+---
+
+################################################################
+# BEDPE
+################################################################
+name: bedpe
+extension: bedpe
+description: TODO
+uuid: a5157092-c781-4357-89fe-39162c87f00c
+
+---
+
+################################################################
+# CSV
+################################################################
+name: csv
+extension: csv
+description: Format used to represent Comma-Separated Values (CSV).
+uuid: 7de2de86-9c45-4872-b7aa-dc1d6751d96d

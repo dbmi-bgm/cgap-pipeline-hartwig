@@ -1,0 +1,44 @@
+name: gridss_gripss
+description: 'Gridss'
+
+runner:
+  language: cwl
+  main: gridss_gripss.cwl
+
+software:
+  - GRIDSS@2.13.2
+  - GRIPSS@2.3.3
+
+input:
+
+  tumor_bam:
+    argument_type: file.bam
+
+  reference_bam:
+    argument_type: file.bam
+
+  reference_genome:
+    argument_type: file.fa
+
+  bwa_index:
+    argument_type: file.bwt
+  
+  breakend_pon:
+    argument_type: file.bed
+  
+  breakpoint_pon:
+    argument_type: file.bedpe
+  
+  breakpoint_hotspot:
+    argument_type: file.bedpe
+
+  tumor_id:
+    argument_type: parameter.string
+  
+  reference_id:
+    argument_type: parameter.string
+
+output:
+
+  gridss_output_vcf:
+    argument_type: file.vcf_gz

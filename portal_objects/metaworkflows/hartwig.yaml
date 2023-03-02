@@ -1,0 +1,227 @@
+name: WGS_downstream_somatic_hartwig
+description: TODO
+
+input:
+
+  tumor_bam:
+    argument_type: file.bam
+    dimensionality: 1
+
+  reference_bam:
+    argument_type: file.bam
+    dimensionality: 1
+
+  somatic_vcf:
+    argument_type: file.vcf_gz
+    dimensionality: 1
+  
+  tumor_id:
+    argument_type: parameter.string
+  
+  reference_id:
+    argument_type: parameter.string
+  
+  loci_file:
+    argument_type: file.vcf_gz
+    files:
+      - hartwig-loci@5_31
+
+  reference_genome:
+    argument_type: file.fa
+    files:
+      - complete-reference-fasta@hg38
+  
+  gc_profile:
+    argument_type: file.cnp
+    files:
+      - hartwig-gc-profile@5_31
+    
+  ensembl_data:
+    argument_type: file.tar_gz
+    files:
+      - hartwig-ensembl-data@5_31
+
+  known_fusion_file:
+    argument_type: file.csv
+    files:
+      - hartwig-known-fusions@5_31
+
+  somatic_hotspots:
+    argument_type: file.vcf_gz
+    files:
+      - somatic_hotspot_mutations@v09132022
+
+  driver_gene_panel:
+    argument_type: file.tsv
+    files:
+      - gene_panel_hartwig@v09132022
+
+  bwa_index:
+    argument_type: file.bwt
+    files:
+      - complete-reference-bwt@hg38
+
+  breakend_pon:
+    argument_type: file.bed
+    files:
+      - hartwig-pon-sgl@5_31
+  
+  breakpoint_pon:
+    argument_type: file.bedpe
+    files:
+      - hartwig-pon-sv@5_31
+
+  breakpoint_hotspot:
+    argument_type: file.bedpe
+    files:
+      - hartwig-pon-sv-hotspots@5_31
+
+workflows:
+
+  amber:
+
+    input:
+
+      tumor_bam:
+        argument_type: file.bam
+        input_dimension: 1
+
+      reference_bam:
+        argument_type: file.bam
+        input_dimension: 1
+      
+      loci_file:
+        argument_type: file.vcf_gz
+      
+      tumor_id:
+        argument_type: parameter.string
+      
+      reference_id:
+        argument_type: parameter.string
+      
+    output:
+
+      amber_tar:
+        file_type: tar gz
+        description: TODO
+
+    config:
+      instance_type: m5.4xlarge
+      ebs_size: 1.5x
+      EBS_optimized: True
+      spot_instance: True
+      run_name: run_amber
+      behavior_on_capacity_limit: wait_and_retry
+
+  gridss_gripss:
+
+    input:
+
+      tumor_bam:
+        argument_type: file.bam
+        input_dimension: 1
+
+      reference_bam:
+        argument_type: file.bam
+        input_dimension: 1
+
+      reference_genome:
+        argument_type: file.fa
+
+      bwa_index:
+        argument_type: file.bwt
+      
+      tumor_id:
+        argument_type: parameter.string
+      
+      reference_id:
+        argument_type: parameter.string
+      
+      breakend_pon:
+        argument_type: file.bed
+      
+      breakpoint_pon:
+        argument_type: file.bedpe
+
+      breakpoint_hotspot:
+        argument_type: file.bedpe
+
+    output:
+
+      gridss_output_vcf:
+        file_type: SV VCF
+    
+    config:
+      instance_type: m5.4xlarge
+      ebs_size: 1.5x
+      EBS_optimized: True
+      spot_instance: True
+      run_name: run_gridss
+      behavior_on_capacity_limit: wait_and_retry
+  
+  cobalt_purple_linx:
+
+    input:
+
+      tumor_bam:
+        argument_type: file.bam
+        input_dimension: 1
+
+      amber_tar:
+        argument_type: file.tar_gz
+        source: amber
+        source_argument_name: amber_tar
+
+      reference_genome:
+        argument_type: file.fa
+
+      reference_bam:
+        argument_type: file.bam
+
+      gc_profile:
+        argument_type: file.cnp
+
+      ensembl_data:
+        argument_type: file.tar_gz
+
+      known_fusion_file:
+        argument_type: file.csv
+
+      somatic_sv_vcf:
+        argument_type: file.vcf_gz
+        source: gridss_gripss
+        source_argument_name: gridss_output_vcf
+
+      somatic_hotspots:
+        argument_type: file.vcf_gz
+
+      driver_gene_panel:
+        argument_type: file.tsv
+
+      somatic_vcf:
+        argument_type: file.vcf_gz
+
+      tumor_id:
+        argument_type: parameter.string
+
+      reference_id:
+        argument_type: parameter.string
+
+    output:
+
+      cobalt_tar:
+        file_type: tar gz
+
+      purple_tar:
+        file_type: tar gz
+
+      linx_tar:
+        file_type: tar gz
+
+    config:
+      instance_type: m5.4xlarge
+      ebs_size: 1.5x
+      EBS_optimized: True
+      spot_instance: True
+      run_name: run_cobalt_purple_linx
+      behavior_on_capacity_limit: wait_and_retry

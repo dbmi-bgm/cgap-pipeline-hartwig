@@ -1,0 +1,51 @@
+################################################################
+# HMF AMBER, 3.9
+################################################################
+name: AMBER
+version: "3.9"
+source_url: https://github.com/hartwigmedical/hmftools/tree/96cddff/amber
+
+---
+
+################################################################
+# PapenfussLab GRIDSS, 2.13.2
+################################################################
+name: GRIDSS
+version: "2.13.2"
+source_url: https://github.com/PapenfussLab/gridss/tree/68a06659
+
+---
+
+################################################################
+# HMF GRIPSS, 2.3.3
+################################################################
+name: GRIPSS
+version: "2.3.3"
+source_url: https://github.com/hartwigmedical/hmftools/tree/a04bc73/gripss
+
+---
+
+################################################################
+# HMF PURPLE, 3.8.1
+################################################################
+name: PURPLE
+version: "3.8.1"
+source_url: https://github.com/hartwigmedical/hmftools/tree/a04bc73/purple
+
+---
+
+################################################################
+# HMF COBALT, 1.13
+################################################################
+name: COBALT
+version: "1.13"
+source_url: https://github.com/hartwigmedical/hmftools/tree/2f09ea1/cobalt
+
+---
+
+################################################################
+# HMF LINX, 1.22
+################################################################
+name: LINX
+version: "1.22"
+source_url: https://github.com/hartwigmedical/hmftools/tree/87b881f/linx

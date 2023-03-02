@@ -1,0 +1,74 @@
+#***************************************************************
+# HARTWIG MEDICAL FOUNDATION
+#***************************************************************
+################################################################
+# Likely heterozygous sites, hg38/GRCh38
+################################################################
+name: hartwig-loci
+description: VCF file containing likely heterozygous sites. |
+             Build hg38/GRCh38.
+format: vcf_gz
+version: "5_31"
+# Required to enable sync with a reference bucket
+uuid: 740835e3-2274-48ff-9815-d8087bf67ce4
+accession: GAPFI91YGH89
+
+---
+name: hartwig-gc-profile
+description: GC profile used by HMF. |
+             Build hg38/GRCh38.
+format: cnp
+version: "5_31"
+# Required to enable sync with a reference bucket
+uuid: f6480f26-9a9e-47f1-9d73-4bacc45e824d
+accession: GAPFI91YGH90
+
+---
+name: hartwig-ensembl-data
+description: Ensembl reference files. |
+             Build hg38/GRCh38.
+format: tar_gz
+version: "5_31"
+# Required to enable sync with a reference bucket
+uuid: 4363e32d-13c0-46d3-9418-96cb4a1c2577
+accession: GAPFI91YGH99
+
+---
+name: hartwig-pon-sgl
+description: PON for SGL breakends. |
+             Build hg38/GRCh38.
+format: bed
+version: "5_31"
+# Required to enable sync with a reference bucket
+uuid: 583604f3-4eaa-4119-8757-8722496def26
+accession: GAPFI91YGH91
+
+---
+name: hartwig-pon-sv
+description: PON for SVs. |
+              Build hg38/GRCh38.
+format: bedpe
+version: "5_31"
+# Required to enable sync with a reference bucket
+uuid: 1032e617-a670-4124-b476-dc91451168fc
+accession: GAPFI91YGH92
+
+---
+name: hartwig-pon-sv-hotspots
+description: Known hotspot SVs, matches known-pair fusions. |
+             Build hg38/GRCh38.
+format: bedpe
+version: "5_31"
+# Required to enable sync with a reference bucket
+uuid: 541ee4b6-cf1e-432f-9a14-9b7d63cbe3e1
+accession: GAPFI91YGH93
+
+---
+name: hartwig-known-fusions
+description: HMF known fusion data. |
+             Build hg38/GRCh38.
+format: csv
+version: "5_31"
+# Required to enable sync with a reference bucket
+uuid: 39640a3f-eb44-4a4a-aa6d-9994c3d5a7cd
+accession: GAPFI91YGH94
