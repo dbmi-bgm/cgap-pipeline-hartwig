@@ -33,13 +33,13 @@ inputs:
   - id: tumor_id
     type: string
     inputBinding:
-      prefix: --sample
+      prefix: --tumor_id
     doc: tumor sample ID
 
   - id: reference_id
     type: string
     inputBinding:
-      prefix: --reference
+      prefix: --reference_id
     doc: reference sample ID
 
   - id: gridss_output_vcf
@@ -53,7 +53,7 @@ inputs:
     type: string
     inputBinding:
       prefix: --ref_genome_version
-    default: "V38"
+    default: "38"
     doc: genome version
 
   - id: threads
@@ -71,6 +71,7 @@ inputs:
     secondaryFiles:
       - ^.dict
       - .fai
+    doc: reference genome
 
   - id: bwa_index
     type: File
@@ -84,44 +85,48 @@ inputs:
       - ^.bwt
       - ^.pac
       - ^.sa
+    doc: BWT genome index
 
-  - id: breakend_pon
+  - id: pon_sgl_file
     type: File
     inputBinding:
-      prefix: --breakend_pon
-    doc: TODO
+      prefix: --pon_sgl_file
+    doc: Panel of Normal for SGL breakends
 
-  - id: breakpoint_pon
+  - id: pon_sv_file
     type: File
     inputBinding:
-      prefix: --breakpoint_pon
-    doc: TODO
+      prefix: --pon_sv_file
+    doc: Panel of Normal for SVs
 
-  - id: breakpoint_hotspot
+  - id: known_hotspot_file
     type: File
     inputBinding:
-      prefix: --breakpoint_hotspot
-    doc: TODO
+      prefix: --known_hotspot_file
+    doc: Known hotspot locations for SVs
 
 outputs:
   - id: gridss_output_vcf
     type: File
     outputBinding:
       glob: $(inputs.gridss_output_vcf)
-    
-  - id: gripss_vcf_filtered
-    type: File
-    outputBinding:
-      glob: $(inputs.tumor_id).gripss.filtered.vcf.gz
-    secondaryFiles:
-      - .tbi
-  
+    doc: GRIDSS SV VCF
+
   - id: gripss_vcf
     type: File
     outputBinding:
       glob:  $(inputs.tumor_id).gripss.vcf.gz
     secondaryFiles:
       - .tbi
+    doc: all non-hard-filtered SVs
+
+  - id: gripss_vcf_filtered
+    type: File
+    outputBinding:
+      glob: $(inputs.tumor_id).gripss.filtered.vcf.gz
+    secondaryFiles:
+      - .tbi
+    doc: filtered for PASS and PON only SVs
 
 doc: |
-  Gridss
+  Run GRIDSS and GRIPSS

@@ -1,5 +1,5 @@
-name: gridss_gripss
-description: 'Gridss'
+name: hartwig_sv_calling
+description: TODO
 
 runner:
   language: cwl
@@ -23,13 +23,13 @@ input:
   bwa_index:
     argument_type: file.bwt
   
-  breakend_pon:
+  pon_sgl_file:
     argument_type: file.bed
   
-  breakpoint_pon:
+  pon_sv_file:
     argument_type: file.bedpe
   
-  breakpoint_hotspot:
+  known_hotspot_file:
     argument_type: file.bedpe
 
   tumor_id:
@@ -41,4 +41,10 @@ input:
 output:
 
   gridss_output_vcf:
+    argument_type: file.vcf_gz
+  
+  gripss_vcf_filtered:
+    argument_type: file.vcf_gz
+  
+  gripss_vcf:
     argument_type: file.vcf_gz

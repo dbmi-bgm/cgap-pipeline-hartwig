@@ -1,21 +1,22 @@
-name: cobalt_purple_linx
+name: hartwig_cnv_sv_interpretation
 description: TODO
 
 runner:
   language: cwl
-  main: cobalt_purple_linx.cwl
+  main: amber_cobalt_purple_linx.cwl
 
 software:
   - COBALT@1.13
   - PURPLE@3.8.1
   - LINX@1.22
+
 input:
 
   tumor_bam:
     argument_type: file.bam
 
-  amber_tar:
-    argument_type: file.tar_gz
+  loci_file:
+    argument_type: file.vcf_gz
 
   reference_genome:
     argument_type: file.fa
@@ -29,7 +30,7 @@ input:
   ensembl_data:
     argument_type: file.tar_gz
 
-  known_fusion_file:
+  known_fusion_data:
     argument_type: file.csv
 
   somatic_sv_vcf:
@@ -51,6 +52,30 @@ input:
     argument_type: parameter.string
 
 output:
+
+  purple_tumor_cnv_somatic_tsv:
+    argument_type: file.tsv_gz
+
+  purple_tumor_purity_tsv:
+    argument_type: file.tsv_gz
+
+  purple_tumor_segment_tsv:
+    argument_type: file.tsv_gz
+
+  purple_tumor_purity_qc:
+    argument_type: file.qc
+
+  linx_tumor_svs_tsv:
+    argument_type: file.tsv_gz
+
+  linx_tumor_fusions_tsv:
+    argument_type: file.tsv_gz
+
+  linx_driver_catalog_tsv:
+    argument_type: file.tsv_gz
+
+  amber_tar:
+    argument_type: file.tar_gz
 
   cobalt_tar:
     argument_type: file.tar_gz

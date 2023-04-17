@@ -25,3 +25,13 @@ name: csv
 extension: csv
 description: Format used to represent Comma-Separated Values (CSV).
 uuid: 7de2de86-9c45-4872-b7aa-dc1d6751d96d
+
+---
+
+################################################################
+# QC
+################################################################
+name: qc
+extension: qc
+description: TODO
+uuid: 9e508f01-a29e-4e06-8bc2-24a493b4593c

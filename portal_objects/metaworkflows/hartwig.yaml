@@ -1,8 +1,21 @@
+## Pipeline information #####################################
+#     General information for the pipeline
+#############################################################
 name: WGS_downstream_somatic_hartwig
-description: TODO
+description: Downstream pipeline to run end-to-end somatic analysis for Whole Genome Sequencing. |
+             Based on Hartwig Medical Foundation toolkit. |
+             CNV, SV calling and annotation. |
+             Identification of putative driver mutations. |
+             Tumor-Normal analysis.
 
+## General arguments ########################################
+#     Pipeline input, reference files, and general arguments
+#       define all arguments for the pipeline here
+#############################################################
 input:
 
+  ##Input files provided by the user##
+  ####################################
   tumor_bam:
     argument_type: file.bam
     dimensionality: 1
@@ -15,12 +28,16 @@ input:
     argument_type: file.vcf_gz
     dimensionality: 1
   
+  ##Input parameters provided by the user##
+  #########################################
   tumor_id:
     argument_type: parameter.string
   
   reference_id:
     argument_type: parameter.string
-  
+
+  ##Reference files##
+  ###################
   loci_file:
     argument_type: file.vcf_gz
     files:
@@ -41,7 +58,7 @@ input:
     files:
       - hartwig-ensembl-data@5_31
 
-  known_fusion_file:
+  known_fusion_data:
     argument_type: file.csv
     files:
       - hartwig-known-fusions@5_31
@@ -61,60 +78,33 @@ input:
     files:
       - complete-reference-bwt@hg38
 
-  breakend_pon:
+  pon_sgl_file:
     argument_type: file.bed
     files:
       - hartwig-pon-sgl@5_31
   
-  breakpoint_pon:
+  pon_sv_file:
     argument_type: file.bedpe
     files:
       - hartwig-pon-sv@5_31
 
-  breakpoint_hotspot:
+  known_hotspot_file:
     argument_type: file.bedpe
     files:
       - hartwig-pon-sv-hotspots@5_31
 
+## Workflows and dependencies ###############################
+#     Information for the workflows and their dependencies
+#############################################################
 workflows:
 
-  amber:
+  ## Workflow definition #####################
+  #   hartwig_sv_calling
+  ############################################
+  hartwig_sv_calling:
 
-    input:
-
-      tumor_bam:
-        argument_type: file.bam
-        input_dimension: 1
-
-      reference_bam:
-        argument_type: file.bam
-        input_dimension: 1
-      
-      loci_file:
-        argument_type: file.vcf_gz
-      
-      tumor_id:
-        argument_type: parameter.string
-      
-      reference_id:
-        argument_type: parameter.string
-      
-    output:
-
-      amber_tar:
-        file_type: tar gz
-        description: TODO
-
-    config:
-      instance_type: m5.4xlarge
-      ebs_size: 1.5x
-      EBS_optimized: True
-      spot_instance: True
-      run_name: run_amber
-      behavior_on_capacity_limit: wait_and_retry
-
-  gridss_gripss:
-
+    ## Specific arguments ##############
+    ####################################
     input:
 
       tumor_bam:
@@ -131,26 +121,40 @@ workflows:
       bwa_index:
         argument_type: file.bwt
       
+      pon_sgl_file:
+        argument_type: file.bed
+      
+      pon_sv_file:
+        argument_type: file.bedpe
+
+      known_hotspot_file:
+        argument_type: file.bedpe
+      
       tumor_id:
         argument_type: parameter.string
       
       reference_id:
-        argument_type: parameter.string
-      
-      breakend_pon:
-        argument_type: file.bed
-      
-      breakpoint_pon:
-        argument_type: file.bedpe
+        argument_type: parameter.string      
 
-      breakpoint_hotspot:
-        argument_type: file.bedpe
-
+    ## Output ##########################
+    #     Output files for the workflow
+    ####################################
     output:
 
       gridss_output_vcf:
         file_type: SV VCF
-    
+        description: VCF containing SVs from GRIDSS
+      
+      gripss_vcf_filtered:
+        file_type: SV VCF
+        description: VCF containing PASS and PON only SVs from GRIPSS 
+
+      gripss_vcf:
+        file_type: SV VCF
+        description: VCF containing all non-hard-filtered SVs from GRIPSS 
+
+    ## EC2 Configuration to use ########
+    ####################################
     config:
       instance_type: m5.4xlarge
       ebs_size: 1.5x
@@ -158,25 +162,29 @@ workflows:
       spot_instance: True
       run_name: run_gridss
       behavior_on_capacity_limit: wait_and_retry
-  
-  cobalt_purple_linx:
 
+  ## Workflow definition #####################
+  #   hartwig_cnv_sv_interpretation
+  ############################################
+  hartwig_cnv_sv_interpretation:
+
+    ## Specific arguments ##############
+    ####################################
     input:
 
       tumor_bam:
         argument_type: file.bam
         input_dimension: 1
 
-      amber_tar:
-        argument_type: file.tar_gz
-        source: amber
-        source_argument_name: amber_tar
+      loci_file:
+        argument_type: file.vcf_gz
 
       reference_genome:
         argument_type: file.fa
 
       reference_bam:
         argument_type: file.bam
+        input_dimension: 1
 
       gc_profile:
         argument_type: file.cnp
@@ -184,13 +192,8 @@ workflows:
       ensembl_data:
         argument_type: file.tar_gz
 
-      known_fusion_file:
+      known_fusion_data:
         argument_type: file.csv
-
-      somatic_sv_vcf:
-        argument_type: file.vcf_gz
-        source: gridss_gripss
-        source_argument_name: gridss_output_vcf
 
       somatic_hotspots:
         argument_type: file.vcf_gz
@@ -200,6 +203,12 @@ workflows:
 
       somatic_vcf:
         argument_type: file.vcf_gz
+        input_dimension: 1
+
+      somatic_sv_vcf:
+        argument_type: file.vcf_gz
+        source: hartwig_sv_calling
+        source_argument_name: gripss_vcf_filtered
 
       tumor_id:
         argument_type: parameter.string
@@ -207,17 +216,57 @@ workflows:
       reference_id:
         argument_type: parameter.string
 
+    ## Output ##########################
+    #     Output files for the workflow
+    ####################################
     output:
+  
+      purple_tumor_cnv_somatic_tsv:
+        file_type: tsv gz
+        description:  todo
 
+      purple_tumor_purity_tsv:
+        file_type: tsv gz
+        description: todo
+
+      purple_tumor_segment_tsv:
+        file_type: tsv gz
+        description: todo
+
+      purple_tumor_purity_qc:
+        file_type: qc
+        description: todo
+
+      linx_tumor_svs_tsv:
+        file_type: tsv gz
+        description: todo
+
+      linx_tumor_fusions_tsv:
+        file_type: tsv gz
+        description: todo
+
+      linx_driver_catalog_tsv:
+        file_type: tsv gz
+        description: todo
+
+      amber_tar:
+        file_type: tar gz
+        description: AMBER compressed output folder
+        
       cobalt_tar:
         file_type: tar gz
+        description: COBALT compressed output folder
 
       purple_tar:
         file_type: tar gz
+        description: PURPLE compressed output folder
 
       linx_tar:
         file_type: tar gz
+        description: LINX compressed output folder
 
+    ## EC2 Configuration to use ########
+    ####################################
     config:
       instance_type: m5.4xlarge
       ebs_size: 1.5x
