@@ -93,6 +93,11 @@ input:
     files:
       - hartwig-pon-sv-hotspots@5_31
 
+  cgap_genes:
+      argument_type: file.tsv_gz
+      files:
+        - cgap_genes@0.4.6
+
 ## Workflows and dependencies ###############################
 #     Information for the workflows and their dependencies
 #############################################################
@@ -274,3 +279,29 @@ workflows:
       spot_instance: True
       run_name: run_cobalt_purple_linx
       behavior_on_capacity_limit: wait_and_retry
+
+  linx_drivers_svelt:
+
+      input:
+
+        linx_driver_catalog_tsv:
+          argument_type: file.tsv_gz
+          source: hartwig_cnv_sv_interpretation
+          source_argument_name: linx_driver_catalog_tsv
+
+        cgap_genes:
+          argument_type: file.tsv_gz
+
+      output:
+
+        svelt_drivers:
+          file type: tsv gz
+          description: TODO
+
+      config:
+        instance_type: t3.xlarge
+        ebs_size: 1.5x
+        EBS_optimized: True
+        spot_instance: True
+        run_name: run_cobalt_purple_linx
+        behavior_on_capacity_limit: wait_and_retry

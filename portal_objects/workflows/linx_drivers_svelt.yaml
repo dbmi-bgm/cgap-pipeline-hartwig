@@ -1,0 +1,20 @@
+name: hartwig_sv_calling
+description: TODO
+
+runner:
+  language: cwl
+  main: convert_putative_drivers.cwl
+
+input:
+
+  linx_driver_catalog_tsv:
+    argument_type: file.tsv_gz
+
+  cgap_genes:
+    argument_type: file.tsv_gz
+
+
+output:
+
+  svelt_drivers:
+    argument_type: file.tsv_gz
