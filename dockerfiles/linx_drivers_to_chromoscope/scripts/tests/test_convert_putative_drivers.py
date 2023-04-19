@@ -23,4 +23,4 @@ def test_convert_linx_drivers(tmp_path):
 
     convert.convert_linx_drivers(args)
 
-    assert True == filecmp.cmp(output, "tests/files/svelt_linx_drivers.tsv")
+    assert True == filecmp.cmp(output, "tests/files/chromoscope_linx_drivers.tsv")
