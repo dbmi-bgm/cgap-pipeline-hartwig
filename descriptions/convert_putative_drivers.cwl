@@ -9,7 +9,7 @@ requirements:
 
 hints:
   - class: DockerRequirement
-    dockerPull: ACCOUNT/linx_drivers_to_svelt:VERSION
+    dockerPull: ACCOUNT/linx_drivers_to_chromoscope:VERSION
 
 baseCommand: [/usr/local/bin/convert_putative_drivers.py]
 
@@ -27,7 +27,7 @@ inputs:
     doc: TODO
 
 outputs:
-  - id: svelt_drivers
+  - id: chromoscope_drivers
     type: File
     doc: TODO
 

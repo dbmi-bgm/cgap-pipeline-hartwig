@@ -280,7 +280,7 @@ workflows:
       run_name: run_cobalt_purple_linx
       behavior_on_capacity_limit: wait_and_retry
 
-  linx_drivers_svelt:
+  linx_drivers_chromoscope:
 
       input:
 
@@ -294,8 +294,8 @@ workflows:
 
       output:
 
-        svelt_drivers:
-          file type: tsv gz
+        chromoscope_drivers:
+          file_type: tsv gz
           description: TODO
 
       config:

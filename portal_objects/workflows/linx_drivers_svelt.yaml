@@ -1,4 +1,4 @@
-name: hartwig_sv_calling
+name: linx_drivers_chromoscope
 description: TODO
 
 runner:
@@ -16,5 +16,5 @@ input:
 
 output:
 
-  svelt_drivers:
+  chromoscope_drivers:
     argument_type: file.tsv_gz
