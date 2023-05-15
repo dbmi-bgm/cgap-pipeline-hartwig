@@ -7,11 +7,22 @@ MATEID = "MATEID"
 CIPOS = "CIPOS"
 BND = "BND"
 
-INFO_fields = ["IMPRECISE"]
-class BedpeRecord:
 
-    def __init__(self, chrom1="", start1="", end1="", chrom2="", start2="", sv_id="", pe_support="",
-                 strand1="", strand2="", svclass=""):
+class BedpeRecord:
+    def __init__(
+        self,
+        chrom1="",
+        start1="",
+        end1="",
+        chrom2="",
+        start2="",
+        sv_id="",
+        pe_support="",
+        strand1="",
+        strand2="",
+        svclass="",
+        info=[],
+    ):
         """
         BedpeRecord represents a single bedpe record
         @param chrom1: chrom1 field in the BEDPE format
@@ -35,6 +46,7 @@ class BedpeRecord:
         self.strand1 = strand1
         self.strand2 = strand2
         self.svclass = svclass
+        self.info = info
 
 
 class Bnd:
@@ -69,6 +81,15 @@ class Bnd:
                 self.STRANDS = {None: "+"}
 
         self.CIPOS = self._get_cipos(vnt_obj)
+
+        self.IMPRECISE = True if self.CIPOS else False
+
+    def get_extra_fields(self):
+        extra_fields = []
+        if self.IMPRECISE:
+            extra_fields += ["IMPRECISE"]
+
+        return extra_fields
 
     def calculate_bedpe_end(self):
         """
@@ -138,7 +159,6 @@ class Converter:
             if len(bnd_obj.MATES) == 0:
                 pairs += [[bnd_obj.ID, None]]
 
-
         self.pairs = pairs
         return self.pairs
 
@@ -181,6 +201,7 @@ class Converter:
         record.strand1 = breakend.STRANDS[None]
         record.strand2 = "."
         record.svclass = "."
+        record.info = ",".join(breakend.get_extra_fields())
 
         return record
 
@@ -223,6 +244,7 @@ class Converter:
             svtype = "TRA"
 
         record.svclass = svtype
+        record.info = ",".join(pair1.get_extra_fields())
         return record
 
 
@@ -253,7 +275,8 @@ def bnd2bedpe(args):
         "pe_support",
         "strand1",
         "strand2",
-        "svclass"
+        "svclass",
+        "info",
     ]
     bnd_dict = vcf_scanner(args["input"])
     converter = Converter(bnd_dict)
