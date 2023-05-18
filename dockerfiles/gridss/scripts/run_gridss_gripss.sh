@@ -2,13 +2,13 @@
 
 while [ "$1" != "" ]; do
     case $1 in
-    --tumor_bam)
+    --input_tumor_bam)
         shift
-        tumor_bam=$1
+        input_tumor_bam=$1
         ;;
-    --reference_bam)
+    --input_normal_bam)
         shift
-        reference_bam=$1
+        input_normal_bam=$1
         ;;
     --threads)
         shift
@@ -83,8 +83,8 @@ gridss \
 --output $gridss_output_vcf \
 --threads $threads \
 --reference $fasta \
-$reference_bam \
-$tumor_bam
+$input_normal_bam \
+$input_tumor_bam
 
 /usr/lib/jvm/java-11-openjdk-amd64/bin/java \
 -Xmx32G \

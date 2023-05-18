@@ -3,7 +3,7 @@
 ################################################################
 name: cnp
 extension: cnp
-description: Format used by Hartwig Medical Foundation to represent GC profile.
+description: Extension used by Hartwig Medical Foundation to represent GC profile.
 uuid: 417061de-0443-4bdc-b40d-75dde27e8237
 
 ---
@@ -13,7 +13,7 @@ uuid: 417061de-0443-4bdc-b40d-75dde27e8237
 ################################################################
 name: bedpe
 extension: bedpe
-description: TODO
+description: File format used to describe disjoint genome features, such as structural variations or paired-end sequence alignment.
 uuid: a5157092-c781-4357-89fe-39162c87f00c
 
 ---
@@ -33,5 +33,5 @@ uuid: 7de2de86-9c45-4872-b7aa-dc1d6751d96d
 ################################################################
 name: qc
 extension: qc
-description: TODO
+description: File extension used for quality control files
 uuid: 9e508f01-a29e-4e06-8bc2-24a493b4593c

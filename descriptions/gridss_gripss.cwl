@@ -14,18 +14,18 @@ hints:
 baseCommand: [/usr/local/bin/run_gridss_gripss.sh]
 
 inputs:
-  - id: tumor_bam
+  - id: input_tumor_bam
     type: File
     inputBinding:
-      prefix: --tumor_bam
+      prefix: --input_tumor_bam
     secondaryFiles:
       - .bai
     doc: tumor BAM file
 
-  - id: reference_bam
+  - id: input_normal_bam
     type: File
     inputBinding:
-      prefix: --reference_bam
+      prefix: --input_normal_bam
     secondaryFiles:
       - .bai
     doc: reference BAM file

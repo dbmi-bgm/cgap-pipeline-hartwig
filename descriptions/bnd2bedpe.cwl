@@ -18,21 +18,21 @@ inputs:
     type: File
     inputBinding:
       prefix: --input
-    doc: TODO
+    doc: VCF file containing structural variants in the BND notation
 
   - id: output_bedpe
     type: File
     inputBinding:
       prefix: --output
     default: "output.bedpe"
-    doc: TODO
+    doc: name of the output BEDPE file
 
 outputs:
   - id: output_sv_bedpe
     type: File
     outputBinding:
       glob: $(inputs.output_bedpe)
-    doc: TODO
+    doc: output BEDPE file
 
 doc: |
-  TODO
+  Convert a VCF file containing SVs stored in the BND notation to the BEDPE format

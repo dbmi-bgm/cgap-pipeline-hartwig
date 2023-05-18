@@ -39,15 +39,6 @@ RUN pip install granite-suite
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
 RUN export JAVA_HOME
 
-
-#RUN add-apt-repository -y ppa:linuxuprising/java 
-#RUN conda install -c "bioconda/label/cf201901" java-jdk
-
-# Setup JAVA_HOME -- useful for docker commandline
-
-# JAVA
-# /usr/lib/jvm/java-11-openjdk-amd64/bin/java
-
 COPY software/${AMBER_JAR} .
 COPY software/${COBALT_JAR} .
 COPY software/${PURPLE_JAR} .

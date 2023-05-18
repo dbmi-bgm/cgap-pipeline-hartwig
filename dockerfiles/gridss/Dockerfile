@@ -18,7 +18,7 @@ ENV GRIPSS_JAR_PATH=${WORKDIR}/${GRIPSS_JAR}
 WORKDIR ${WORKDIR}
 
 RUN apt-get update && \
-    apt-get install -y openjdk-11-jdk=11.0.18+10-0ubuntu1~20.04.1 \
+    apt-get install -y openjdk-11-jdk=11.0.19+7~us1-0ubuntu1~20.04.1 \
     ca-certificates-java=20190405ubuntu1 \
     util-linux=2.34-0.1ubuntu9.3 \
     tabix=1.10.2-3ubuntu0.1 \
@@ -27,7 +27,7 @@ RUN apt-get update && \
     zlib1g-dev=1:1.2.11.dfsg-2ubuntu1.5 \
     liblz4-tool=1.9.2-2ubuntu0.20.04.1 \
     libcurl4-openssl-dev=7.68.0-1ubuntu2.18 \
-    libssl-dev=1.1.1f-1ubuntu2.17 \
+    libssl-dev=1.1.1f-1ubuntu2.18 \
     zip=3.0-11build1 \
     libarchive-tools=3.4.0-2ubuntu1.2 \
     libncurses5-dev=6.2-0ubuntu2  \

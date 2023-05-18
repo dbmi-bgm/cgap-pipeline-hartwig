@@ -16,11 +16,11 @@ input:
 
   ##Input files provided by the user##
   ####################################
-  tumor_bam:
+  input_tumor_bam:
     argument_type: file.bam
     dimensionality: 1
 
-  reference_bam:
+  input_normal_bam:
     argument_type: file.bam
     dimensionality: 1
 
@@ -112,11 +112,11 @@ workflows:
     ####################################
     input:
 
-      tumor_bam:
+      input_tumor_bam:
         argument_type: file.bam
         input_dimension: 1
 
-      reference_bam:
+      input_normal_bam:
         argument_type: file.bam
         input_dimension: 1
 
@@ -212,7 +212,7 @@ workflows:
     ####################################
     input:
 
-      tumor_bam:
+      input_tumor_bam:
         argument_type: file.bam
         input_dimension: 1
 
@@ -222,7 +222,7 @@ workflows:
       reference_genome:
         argument_type: file.fa
 
-      reference_bam:
+      input_normal_bam:
         argument_type: file.bam
         input_dimension: 1
 

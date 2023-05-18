@@ -2,13 +2,13 @@
 
 while [ "$1" != "" ]; do
     case $1 in
-    --tumor_bam)
+    --input_tumor_bam)
         shift
-        tumor_bam=$1
+        input_tumor_bam=$1
         ;;
-    --reference_bam)
+    --input_normal_bam)
         shift
-        reference_bam=$1
+        input_normal_bam=$1
         ;;
     --tumor_id)
         shift
@@ -121,8 +121,8 @@ echo "Running AMBER"
 /usr/lib/jvm/java-11-openjdk-amd64/bin/java \
 -Xmx16G \
 -cp ${AMBER_JAR_PATH} com.hartwig.hmftools.amber.AmberApplication \
--tumor_bam $tumor_bam \
--reference_bam $reference_bam \
+-tumor_bam $input_tumor_bam \
+-reference_bam $input_normal_bam \
 -tumor $tumor_id \
 -reference $reference_id \
 -loci $loci_file \
@@ -134,8 +134,8 @@ echo "Running COBALT"
 /usr/lib/jvm/java-11-openjdk-amd64/bin/java \
 -Xmx32G \
 -cp ${COBALT_JAR_PATH} com.hartwig.hmftools.cobalt.CobaltApplication \
--tumor_bam $tumor_bam \
--reference_bam $reference_bam \
+-tumor_bam $input_tumor_bam \
+-reference_bam $input_normal_bam \
 -tumor $tumor_id \
 -reference $reference_id \
 -threads $threads_cobalt \

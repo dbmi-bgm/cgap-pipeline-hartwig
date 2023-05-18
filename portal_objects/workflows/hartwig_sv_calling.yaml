@@ -1,5 +1,9 @@
+## Workflow information #####################################
+#     General information for the workflow
+#############################################################
 name: hartwig_sv_calling
-description: TODO
+description: Run GRIDSS to call structural variants. |
+             Run GRIPSS to apply filtering on SVs.
 
 runner:
   language: cwl
@@ -9,12 +13,15 @@ software:
   - GRIDSS@2.13.2
   - GRIPSS@2.3.3
 
+## Input information ########################################
+#     Input files and parameters
+#############################################################
 input:
 
-  tumor_bam:
+  input_tumor_bam:
     argument_type: file.bam
 
-  reference_bam:
+  input_normal_bam:
     argument_type: file.bam
 
   reference_genome:
@@ -38,6 +45,9 @@ input:
   reference_id:
     argument_type: parameter.string
 
+## Output information #######################################
+#     Output files and quality controls
+#############################################################
 output:
 
   gridss_output_vcf:

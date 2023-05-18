@@ -15,10 +15,10 @@ baseCommand: [/usr/local/bin/run_hmftools.sh]
 
 inputs:
 
-  - id: tumor_bam
+  - id: input_tumor_bam
     type: File
     inputBinding:
-      prefix: --tumor_bam
+      prefix: --input_tumor_bam
     secondaryFiles:
       - .bai
     doc: tumor BAM file
@@ -32,10 +32,10 @@ inputs:
       - ^.dict
     doc: reference genome
 
-  - id: reference_bam
+  - id: input_normal_bam
     type: File
     inputBinding:
-      prefix: --reference_bam
+      prefix: --input_normal_bam
     secondaryFiles:
       - .bai
     doc: reference BAM file
@@ -169,13 +169,13 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.output_dir_purple)/$(inputs.tumor_id).purple.cnv.somatic.tsv.gz
-    doc: TODO
+    doc: File containing the copy number profile of all (contiguous)  segments of the tumor sample
 
-  - id:  purple_tumor_purity_tsv
+  - id: purple_tumor_purity_tsv
     type: File
     outputBinding:
       glob: $(inputs.output_dir_purple)/$(inputs.tumor_id).purple.purity.tsv.gz
-    doc: todo
+    doc: File containing a summary of the purity fit
 
   - id: purple_tumor_segment_tsv
     type: File
@@ -187,31 +187,31 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.output_dir_purple)/$(inputs.tumor_id).purple.qc
-    doc: todo
+    doc: File containing a summary of the purity fit
 
   - id: linx_tumor_svs_tsv
     type: File
     outputBinding:
       glob: $(inputs.output_dir_linx)/$(inputs.tumor_id).linx.svs.tsv.gz
-    doc: todo
+    doc: File containing annotations of each non PON filtered breakjunction
   
   - id: linx_tumor_breakend_tsv
     type: File
     outputBinding:
       glob: $(inputs.output_dir_linx)/$(inputs.tumor_id).linx.breakend.tsv.gz
-    doc: todo
+    doc: File containing information about the impact of each non PON filtered break junction on each overlapping gene
   
   - id: linx_tumor_fusions_tsv
     type: File
     outputBinding:
       glob: $(inputs.output_dir_linx)/$(inputs.tumor_id).linx.fusion.tsv.gz
-    doc: todo
+    doc: File containing all inframe and out of frame fusions predicted in the sample including HMF fusion knowledgebase annotations
 
   - id: linx_driver_catalog_tsv
     type: File
     outputBinding:
       glob: $(inputs.output_dir_linx)/$(inputs.tumor_id).linx.driver.catalog.tsv.gz
-    doc: todo
+    doc: File containing the driver catalog
 
   - id: amber_tar
     type: File

@@ -1,28 +1,28 @@
 ## Workflow information #####################################
 #     General information for the workflow
 #############################################################
-name: bnd2bedpe
-description: Run bnd2bedpe to convert SVs stored in the BND notation to the BEDPE format.
+name: linx_drivers_chromoscope
+description: TODO
 
 runner:
   language: cwl
-  main: bnd2bedpe.cwl
-
-software:
-  - granite@0.2.0
+  main: convert_putative_drivers.cwl
 
 ## Input information ########################################
 #     Input files and parameters
 #############################################################
 input:
 
-  input_sv_vcf:
-    argument_type: file.vcf_gz
+  linx_driver_catalog_tsv:
+    argument_type: file.tsv_gz
+
+  cgap_genes:
+    argument_type: file.tsv_gz
 
 ## Output information #######################################
 #     Output files and quality controls
 #############################################################
 output:
 
-  output_sv_bedpe:
-    argument_type: file.bedpe
+  chromoscope_drivers:
+    argument_type: file.tsv_gz

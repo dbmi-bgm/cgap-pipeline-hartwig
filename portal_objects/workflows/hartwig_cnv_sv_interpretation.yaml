@@ -1,3 +1,6 @@
+## Workflow information #####################################
+#     General information for the workflow
+#############################################################
 name: hartwig_cnv_sv_interpretation
 description: TODO
 
@@ -9,10 +12,14 @@ software:
   - COBALT@1.13
   - PURPLE@3.8.1
   - LINX@1.22
+  - granite@0.2.0
 
+## Input information ########################################
+#     Input files and parameters
+#############################################################
 input:
 
-  tumor_bam:
+  input_tumor_bam:
     argument_type: file.bam
 
   loci_file:
@@ -21,7 +28,7 @@ input:
   reference_genome:
     argument_type: file.fa
 
-  reference_bam:
+  input_normal_bam:
     argument_type: file.bam
 
   gc_profile:
@@ -51,6 +58,9 @@ input:
   reference_id:
     argument_type: parameter.string
 
+## Output information #######################################
+#     Output files and quality controls
+#############################################################
 output:
 
   purple_tumor_cnv_somatic_tsv:

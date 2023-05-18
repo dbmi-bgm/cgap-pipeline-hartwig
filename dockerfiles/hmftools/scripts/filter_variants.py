@@ -2,14 +2,11 @@
 
 ################################################
 #
-#  Script to split Sentieon somatic vcf by variant type
+#  Script to split a VCF file by variant type
 #
 ################################################
 
-################################################
-#   Libraries
-################################################
-import sys, argparse, subprocess
+import argparse, subprocess
 from granite.lib import vcf_parser, shared_functions
 
 SNV = "snv"

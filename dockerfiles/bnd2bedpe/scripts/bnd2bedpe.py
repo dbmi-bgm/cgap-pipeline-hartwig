@@ -196,7 +196,7 @@ class Converter:
         record.start2 = "-1"
         record.end2 = "-1"
         record.sv_id = breakend.ID
-        record.pe_support = str((float(breakend.QUAL)))
+        record.pe_support = "."
 
         record.strand1 = breakend.STRANDS[None]
         record.strand2 = "."
@@ -226,7 +226,7 @@ class Converter:
         record.start2 = pair2.calculate_bedpe_start()
         record.end2 = pair2.calculate_bedpe_end()
         record.sv_id = pair1.ID
-        record.pe_support = str((float(pair1.QUAL)))
+        record.pe_support = "."
         record.strand1 = strand1
         record.strand2 = strand2
         if chrom1 == chrom2:
