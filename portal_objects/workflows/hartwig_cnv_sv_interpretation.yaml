@@ -2,13 +2,17 @@
 #     General information for the workflow
 #############################################################
 name: hartwig_cnv_sv_interpretation
-description: TODO
+description: Run COBALT to determine the read depth ratios of the tumor and normal samples. |
+             Run AMBER to calculate BAF of the tumor sample. |
+             Run PURPLE to call CNVs, estimate sample purity and ploidy, identify putative driver mutations. |
+             Run LINX to interprete and annotate structural variants.
 
 runner:
   language: cwl
   main: amber_cobalt_purple_linx.cwl
 
 software:
+  - AMBER@3.9
   - COBALT@1.13
   - PURPLE@3.8.1
   - LINX@1.22
@@ -49,13 +53,13 @@ input:
   driver_gene_panel:
     argument_type: file.tsv
 
-  somatic_vcf:
+  input_somatic_vcf:
     argument_type: file.vcf_gz
 
-  tumor_id:
+  tumor_sample_name:
     argument_type: parameter.string
 
-  reference_id:
+  normal_sample_name:
     argument_type: parameter.string
 
 ## Output information #######################################

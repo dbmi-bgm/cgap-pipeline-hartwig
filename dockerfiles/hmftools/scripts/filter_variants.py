@@ -5,7 +5,6 @@
 #  Script to split a VCF file by variant type
 #
 ################################################
-
 import argparse, subprocess
 from granite.lib import vcf_parser, shared_functions
 
@@ -70,7 +69,6 @@ def main(args):
     files_dict = {}
 
     if len(args["output"]) > 0:
-
         # to have an unique list of variants types and sorted for the output file name so we know what suffix to expect
         args["output"] = [clean_param(v) for v in args["output"]]
         for comb in args["output"]:
@@ -81,7 +79,6 @@ def main(args):
         vcf.write_header(files_dict[key])
 
     for vnt_obj in vcf.parse_variants():
-
         if vnt_obj.FILTER != "PASS" and args["pass_only"] == True:
             continue
 
@@ -109,8 +106,9 @@ def main(args):
 #   MAIN
 ################################################
 if __name__ == "__main__":
-
-    parser = argparse.ArgumentParser(description="")
+    parser = argparse.ArgumentParser(
+        description="Group variants stored in a VCF file according to the specified variant types."
+    )
 
     parser.add_argument("-i", "--inputvcf", help="input sample vcf", required=True)
     parser.add_argument(

@@ -22,13 +22,13 @@ while [ "$1" != "" ]; do
         shift
         ref_genome_version=$1
         ;;
-    --tumor_id)
+    --tumor_sample_name)
         shift
-        tumor_id=$1
+        tumor_sample_name=$1
         ;;
-    --reference_id)
+    --normal_sample_name)
         shift
-        reference_id=$1
+        normal_sample_name=$1
         ;;       
     --bwa_index)
         shift
@@ -58,7 +58,6 @@ while [ "$1" != "" ]; do
     shift
 done
 
-echo  ${reference_id},${tumor_id}
 
 fasta="reference.fasta" 
 
@@ -79,22 +78,25 @@ gridss \
 --jar  ${GRIDSS_JAR_PATH} \
 --jvmheap 44g \
 --otherjvmheap 4g \
---labels ${reference_id},${tumor_id} \
+--labels ${normal_sample_name},${tumor_sample_name} \
 --output $gridss_output_vcf \
 --threads $threads \
 --reference $fasta \
 $input_normal_bam \
-$input_tumor_bam
+$input_tumor_bam || exit 1
 
 /usr/lib/jvm/java-11-openjdk-amd64/bin/java \
 -Xmx32G \
 -jar ${GRIPSS_JAR_PATH} \
--sample $tumor_id \
--reference $reference_id \
+-sample $tumor_sample_name \
+-reference $normal_sample_name \
 -vcf  $gridss_output_vcf \
 -output_dir . \
 -pon_sgl_file $pon_sgl_file \
 -pon_sv_file $pon_sv_file \
 -known_hotspot_file $known_hotspot_file \
 -ref_genome reference.fasta \
--ref_genome_version $ref_genome_version
+-ref_genome_version $ref_genome_version || exit 1
+
+bgzip $gridss_output_vcf
+tabix $(gridss_output_vcf).gz

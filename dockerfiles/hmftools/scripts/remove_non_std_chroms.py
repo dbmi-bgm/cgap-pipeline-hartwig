@@ -27,13 +27,11 @@ std_chromosomes += [CHR_PREFIX + chrom for chrom in std_chromosomes]
 
 
 def main(args):
-
     output_file = args["outputfile"]
 
     vcf = vcf_parser.Vcf(args["inputfile"])
 
     with open(output_file, "w") as output:
-
         vcf.write_header(output)
 
         for vnt in vcf.parse_variants():
@@ -47,8 +45,9 @@ def main(args):
 ################################################
 
 if __name__ == "__main__":
-
-    parser = argparse.ArgumentParser(description="Preprocess to the liftover step")
+    parser = argparse.ArgumentParser(
+        description="Remove non standard chromosomes from a VCF file. This script excludes all the variants that are not chromosomes 1-22, X or Y. "
+    )
 
     parser.add_argument("-i", "--inputfile", help="input VCF file", required=True)
     parser.add_argument("-o", "--outputfile", help="output VCF file", required=True)

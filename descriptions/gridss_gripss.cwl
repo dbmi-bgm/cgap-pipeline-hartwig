@@ -30,16 +30,16 @@ inputs:
       - .bai
     doc: reference BAM file
 
-  - id: tumor_id
+  - id: tumor_sample_name
     type: string
     inputBinding:
-      prefix: --tumor_id
+      prefix: --tumor_sample_name
     doc: tumor sample ID
 
-  - id: reference_id
+  - id: normal_sample_name
     type: string
     inputBinding:
-      prefix: --reference_id
+      prefix: --normal_sample_name
     doc: reference sample ID
 
   - id: gridss_output_vcf
@@ -109,21 +109,23 @@ outputs:
   - id: gridss_output_vcf
     type: File
     outputBinding:
-      glob: $(inputs.gridss_output_vcf)
+      glob: $(inputs.gridss_output_vcf).gz
+    secondaryFiles:
+      - .tbi
     doc: GRIDSS SV VCF
 
-  - id: gripss_vcf
+  - id: gripss_output_vcf
     type: File
     outputBinding:
-      glob:  $(inputs.tumor_id).gripss.vcf.gz
+      glob:  $(inputs.tumor_sample_name).gripss.vcf.gz
     secondaryFiles:
       - .tbi
     doc: all non-hard-filtered SVs
 
-  - id: gripss_vcf_filtered
+  - id: gripss_output_vcf_filtered
     type: File
     outputBinding:
-      glob: $(inputs.tumor_id).gripss.filtered.vcf.gz
+      glob: $(inputs.tumor_sample_name).gripss.filtered.vcf.gz
     secondaryFiles:
       - .tbi
     doc: filtered for PASS and PON only SVs

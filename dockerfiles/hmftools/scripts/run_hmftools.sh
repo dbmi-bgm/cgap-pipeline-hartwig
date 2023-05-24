@@ -10,13 +10,13 @@ while [ "$1" != "" ]; do
         shift
         input_normal_bam=$1
         ;;
-    --tumor_id)
+    --tumor_sample_name)
         shift
-        tumor_id=$1
+        tumor_sample_name=$1
         ;;
-    --reference_id)
+    --normal_sample_name)
         shift
-        reference_id=$1
+        normal_sample_name=$1
         ;;
     --reference_genome)
         shift
@@ -71,9 +71,9 @@ while [ "$1" != "" ]; do
         shift
         ensembl_data=$1
         ;;
-    --somatic_vcf)
+    --input_somatic_vcf)
         shift
-        somatic_vcf=$1
+        input_somatic_vcf=$1
         ;;
     --somatic_sv_vcf)
         shift
@@ -95,9 +95,6 @@ while [ "$1" != "" ]; do
     shift
 done
 
-# exit if any of the commands fails
-set -e
-
 
 FILTER_VCF="filtered_vcf"
 ENSEMBL_DIR="ensembl_data"
@@ -112,7 +109,7 @@ echo "Unzipping driver gene panel"
 gunzip -c $driver_gene_panel > $DRIVER_GENE_PANEL_TSV
 
 echo "Filtering SV variants -- SNVs, INDELs, PASS only"
-python3 /usr/local/bin/filter_variants.py -i $somatic_vcf -o ind snv --pass_only --prefix $FILTER_VCF
+python3 /usr/local/bin/filter_variants.py -i $input_somatic_vcf -o ind snv --pass_only --prefix $FILTER_VCF
 
 echo "Removing non standard chromosomes"
 python3  /usr/local/bin/remove_non_std_chroms.py -i ${FILTER_VCF}_ind_snv.vcf.gz -o $SOMATIC_SV_VCF
@@ -123,12 +120,12 @@ echo "Running AMBER"
 -cp ${AMBER_JAR_PATH} com.hartwig.hmftools.amber.AmberApplication \
 -tumor_bam $input_tumor_bam \
 -reference_bam $input_normal_bam \
--tumor $tumor_id \
--reference $reference_id \
+-tumor $tumor_sample_name \
+-reference $normal_sample_name \
 -loci $loci_file \
 -output_dir $output_dir_amber \
 -ref_genome_version $genome_version \
--threads $threads_amber
+-threads $threads_amber || exit 1
 
 echo "Running COBALT"
 /usr/lib/jvm/java-11-openjdk-amd64/bin/java \
@@ -136,43 +133,43 @@ echo "Running COBALT"
 -cp ${COBALT_JAR_PATH} com.hartwig.hmftools.cobalt.CobaltApplication \
 -tumor_bam $input_tumor_bam \
 -reference_bam $input_normal_bam \
--tumor $tumor_id \
--reference $reference_id \
+-tumor $tumor_sample_name \
+-reference $normal_sample_name \
 -threads $threads_cobalt \
 -gc_profile $gc_profile \
--output_dir $output_dir_cobalt
+-output_dir $output_dir_cobalt || exit 1
 
 echo "Running PURPLE"
 /usr/lib/jvm/java-11-openjdk-amd64/bin/java \
 -Xmx32G -jar ${PURPLE_JAR_PATH} \
--reference $reference_id \
--tumor $tumor_id \
+-reference $normal_sample_name \
+-tumor $tumor_sample_name \
 -amber $output_dir_amber \
 -cobalt $output_dir_cobalt \
 -gc_profile $gc_profile \
 -ref_genome $reference_genome \
 -ref_genome_version $genome_version \
 -ensembl_data_dir $ENSEMBL_DIR \
--somatic_vcf $SOMATIC_SV_VCF \
+-input_somatic_vcf $SOMATIC_SV_VCF \
 -somatic_sv_vcf $somatic_sv_vcf \
 -output_dir $output_dir_purple \
 -somatic_hotspots $somatic_hotspots \
 -driver_gene_panel $DRIVER_GENE_PANEL_TSV \
 -circos /usr/local/bin/circos-0.69-9/bin/circos \
--threads $threads_purple
+-threads $threads_purple || exit 1
 
 echo "Running LINX"
 /usr/lib/jvm/java-11-openjdk-amd64/bin/java -jar ${LINX_JAR_PATH} \
--sample $tumor_id \
+-sample $tumor_sample_name \
 -ref_genome_version $genome_version \
--sv_vcf $output_dir_purple/$tumor_id.purple.sv.vcf.gz \
+-sv_vcf $output_dir_purple/$tumor_sample_name.purple.sv.vcf.gz \
 -purple_dir $output_dir_purple \
 -output_dir $output_dir_linx \
 -ensembl_data_dir $ENSEMBL_DIR \
 -check_fusions \
 -check_drivers \
 -threads $threads_linx \
--driver_gene_panel $DRIVER_GENE_PANEL_TSV
+-driver_gene_panel $DRIVER_GENE_PANEL_TSV || exit 1
 
 
 pushd  $output_dir_amber
@@ -197,10 +194,10 @@ tar -czvf  $(dirs -l +1)/$output_dir_linx.tar.gz *
 popd
 
 echo "Compressing output TSV files"
-gzip $output_dir_purple/$tumor_id.purple.cnv.somatic.tsv
-gzip $output_dir_purple/$tumor_id.purple.purity.tsv
-gzip $output_dir_purple/$tumor_id.purple.segment.tsv
-gzip $output_dir_linx/$tumor_id.linx.svs.tsv
-gzip $output_dir_linx/$tumor_id.linx.breakend.tsv
-gzip $output_dir_linx/$tumor_id.linx.fusion.tsv
-gzip $output_dir_linx/$tumor_id.linx.driver.catalog.tsv
+gzip $output_dir_purple/$tumor_sample_name.purple.cnv.somatic.tsv
+gzip $output_dir_purple/$tumor_sample_name.purple.purity.tsv
+gzip $output_dir_purple/$tumor_sample_name.purple.segment.tsv
+gzip $output_dir_linx/$tumor_sample_name.linx.svs.tsv
+gzip $output_dir_linx/$tumor_sample_name.linx.breakend.tsv
+gzip $output_dir_linx/$tumor_sample_name.linx.fusion.tsv
+gzip $output_dir_linx/$tumor_sample_name.linx.driver.catalog.tsv

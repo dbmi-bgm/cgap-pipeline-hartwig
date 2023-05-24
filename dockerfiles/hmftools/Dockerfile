@@ -34,7 +34,8 @@ RUN R -e "BiocManager::install('copynumber')"
 RUN R -e "BiocManager::install('VariantAnnotation')"
 RUN R -e "install.packages('ggplot2', repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('cowplot', repos='http://cran.rstudio.com/')"
-RUN pip install granite-suite
+
+RUN pip install granite-suite==0.2.0
 
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
 RUN export JAVA_HOME

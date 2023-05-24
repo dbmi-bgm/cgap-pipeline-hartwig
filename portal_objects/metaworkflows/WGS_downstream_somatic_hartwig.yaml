@@ -3,7 +3,7 @@
 #############################################################
 name: WGS_downstream_somatic_hartwig
 description: Downstream pipeline to run end-to-end somatic analysis for Whole Genome Sequencing. |
-             Based on Hartwig Medical Foundation toolkit. |
+             Based on the Hartwig Medical Foundation toolkit. |
              CNV, SV calling and annotation. |
              Identification of putative driver mutations. |
              Tumor-Normal analysis.
@@ -24,16 +24,16 @@ input:
     argument_type: file.bam
     dimensionality: 1
 
-  somatic_vcf:
+  input_somatic_vcf:
     argument_type: file.vcf_gz
     dimensionality: 1
   
   ##Input parameters provided by the user##
   #########################################
-  tumor_id:
+  tumor_sample_name:
     argument_type: parameter.string
   
-  reference_id:
+  normal_sample_name:
     argument_type: parameter.string
 
   ##Reference files##
@@ -93,7 +93,7 @@ input:
     files:
       - hartwig-pon-sv-hotspots@5_31
 
-  cgap_genes:
+  genes:
       argument_type: file.tsv_gz
       files:
         - cgap_genes@0.4.6
@@ -135,10 +135,10 @@ workflows:
       known_hotspot_file:
         argument_type: file.bedpe
       
-      tumor_id:
+      tumor_sample_name:
         argument_type: parameter.string
       
-      reference_id:
+      normal_sample_name:
         argument_type: parameter.string      
 
     ## Output ##########################
@@ -150,11 +150,11 @@ workflows:
         file_type: SV VCF
         description: VCF containing SVs from GRIDSS
       
-      gripss_vcf_filtered:
+      gripss_output_vcf_filtered:
         file_type: SV VCF
         description: VCF containing PASS and PON only SVs from GRIPSS 
 
-      gripss_vcf:
+      gripss_output_vcf:
         file_type: SV VCF
         description: VCF containing all non-hard-filtered SVs from GRIPSS 
 
@@ -169,7 +169,7 @@ workflows:
       behavior_on_capacity_limit: wait_and_retry
 
   ## Workflow definition #####################
-  #   hartwig_sv_calling
+  #   bnd2bedpe
   ############################################
   bnd2bedpe:
 
@@ -180,7 +180,7 @@ workflows:
       input_sv_vcf:
         argument_type: file.bam
         source: hartwig_sv_calling
-        source_argument_name: gripss_vcf_filtered
+        source_argument_name: gripss_output_vcf_filtered
 
     ## Output ##########################
     #     Output files for the workflow
@@ -241,19 +241,19 @@ workflows:
       driver_gene_panel:
         argument_type: file.tsv
 
-      somatic_vcf:
+      input_somatic_vcf:
         argument_type: file.vcf_gz
         input_dimension: 1
 
       somatic_sv_vcf:
         argument_type: file.vcf_gz
         source: hartwig_sv_calling
-        source_argument_name: gripss_vcf_filtered
+        source_argument_name: gripss_output_vcf_filtered
 
-      tumor_id:
+      tumor_sample_name:
         argument_type: parameter.string
 
-      reference_id:
+      normal_sample_name:
         argument_type: parameter.string
 
     ## Output ##########################
@@ -263,31 +263,31 @@ workflows:
   
       purple_tumor_cnv_somatic_tsv:
         file_type: tsv gz
-        description:  todo
+        description:  File containing the copy number profile of all (contiguous)  segments of the tumor sample
 
       purple_tumor_purity_tsv:
         file_type: tsv gz
-        description: todo
+        description: File containing a summary of the purity fit
 
       purple_tumor_segment_tsv:
         file_type: tsv gz
-        description: todo
+        description: File containing results of segmentation of the genome for the tumor sample
 
       purple_tumor_purity_qc:
         file_type: qc
-        description: todo
+        description: File containing a summary of the purity fit
 
       linx_tumor_svs_tsv:
         file_type: tsv gz
-        description: todo
+        description: File containing annotations of each non PON filtered breakjunction
 
       linx_tumor_fusions_tsv:
         file_type: tsv gz
-        description: todo
+        description: File containing all inframe and out of frame fusions predicted in the sample including HMF fusion knowledgebase annotations
 
       linx_driver_catalog_tsv:
         file_type: tsv gz
-        description: todo
+        description: File containing the driver catalog
 
       amber_tar:
         file_type: tar gz
@@ -315,8 +315,13 @@ workflows:
       run_name: run_bnd2bedpe
       behavior_on_capacity_limit: wait_and_retry
 
-  linx_drivers_chromoscope:
+## Workflow definition #####################
+#   drivers_to_chromoscope_tsv
+############################################
+  drivers_to_chromoscope_tsv:
 
+      ## Specific arguments ##############
+      ####################################
       input:
 
         linx_driver_catalog_tsv:
@@ -324,15 +329,20 @@ workflows:
           source: hartwig_cnv_sv_interpretation
           source_argument_name: linx_driver_catalog_tsv
 
-        cgap_genes:
+        genes:
           argument_type: file.tsv_gz
 
+      ## Output ##########################
+      #     Output files for the workflow
+      ####################################
       output:
 
         chromoscope_drivers:
           file_type: tsv gz
-          description: TODO
+          description: Chromoscope compatible output driver catalog
 
+      ## EC2 Configuration to use ########
+      ####################################
       config:
         instance_type: t3.xlarge
         ebs_size: 1.5x

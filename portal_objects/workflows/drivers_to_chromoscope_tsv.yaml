@@ -1,8 +1,8 @@
 ## Workflow information #####################################
 #     General information for the workflow
 #############################################################
-name: linx_drivers_chromoscope
-description: TODO
+name: drivers_to_chromoscope_tsv
+description: Convert LINX/PURPLE putative drivers into a Chromoscope compatible TSV file
 
 runner:
   language: cwl
@@ -16,7 +16,7 @@ input:
   linx_driver_catalog_tsv:
     argument_type: file.tsv_gz
 
-  cgap_genes:
+  genes:
     argument_type: file.tsv_gz
 
 ## Output information #######################################

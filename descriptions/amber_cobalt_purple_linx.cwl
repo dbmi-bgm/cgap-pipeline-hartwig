@@ -40,16 +40,16 @@ inputs:
       - .bai
     doc: reference BAM file
 
-  - id: tumor_id
+  - id: tumor_sample_name
     type: string
     inputBinding:
-      prefix: --tumor_id
+      prefix: --tumor_sample_name
     doc: tumor sample ID
 
-  - id: reference_id
+  - id: normal_sample_name
     type: string
     inputBinding:
-      prefix: --reference_id
+      prefix: --normal_sample_name
     doc: reference sample ID
 
   - id: gc_profile
@@ -82,10 +82,10 @@ inputs:
       prefix: --driver_gene_panel
     doc: TSV containing driver genes
 
-  - id: somatic_vcf
+  - id: input_somatic_vcf
     type: File
     inputBinding:
-      prefix: --somatic_vcf
+      prefix: --input_somatic_vcf
     doc: VCF containing somatic variants (SNV/INDEL)
 
   - id: loci_file
@@ -168,49 +168,49 @@ outputs:
   - id: purple_tumor_cnv_somatic_tsv
     type: File
     outputBinding:
-      glob: $(inputs.output_dir_purple)/$(inputs.tumor_id).purple.cnv.somatic.tsv.gz
+      glob: $(inputs.output_dir_purple)/$(inputs.tumor_sample_name).purple.cnv.somatic.tsv.gz
     doc: File containing the copy number profile of all (contiguous)  segments of the tumor sample
 
   - id: purple_tumor_purity_tsv
     type: File
     outputBinding:
-      glob: $(inputs.output_dir_purple)/$(inputs.tumor_id).purple.purity.tsv.gz
+      glob: $(inputs.output_dir_purple)/$(inputs.tumor_sample_name).purple.purity.tsv.gz
     doc: File containing a summary of the purity fit
 
   - id: purple_tumor_segment_tsv
     type: File
     outputBinding:
-      glob: $(inputs.output_dir_purple)/$(inputs.tumor_id).purple.segment.tsv.gz
-    doc: todo
+      glob: $(inputs.output_dir_purple)/$(inputs.tumor_sample_name).purple.segment.tsv.gz
+    doc: File containing results of segmentation of the genome for the tumor sample.
 
   - id: purple_tumor_purity_qc
     type: File
     outputBinding:
-      glob: $(inputs.output_dir_purple)/$(inputs.tumor_id).purple.qc
+      glob: $(inputs.output_dir_purple)/$(inputs.tumor_sample_name).purple.qc
     doc: File containing a summary of the purity fit
 
   - id: linx_tumor_svs_tsv
     type: File
     outputBinding:
-      glob: $(inputs.output_dir_linx)/$(inputs.tumor_id).linx.svs.tsv.gz
+      glob: $(inputs.output_dir_linx)/$(inputs.tumor_sample_name).linx.svs.tsv.gz
     doc: File containing annotations of each non PON filtered breakjunction
   
   - id: linx_tumor_breakend_tsv
     type: File
     outputBinding:
-      glob: $(inputs.output_dir_linx)/$(inputs.tumor_id).linx.breakend.tsv.gz
+      glob: $(inputs.output_dir_linx)/$(inputs.tumor_sample_name).linx.breakend.tsv.gz
     doc: File containing information about the impact of each non PON filtered break junction on each overlapping gene
   
   - id: linx_tumor_fusions_tsv
     type: File
     outputBinding:
-      glob: $(inputs.output_dir_linx)/$(inputs.tumor_id).linx.fusion.tsv.gz
+      glob: $(inputs.output_dir_linx)/$(inputs.tumor_sample_name).linx.fusion.tsv.gz
     doc: File containing all inframe and out of frame fusions predicted in the sample including HMF fusion knowledgebase annotations
 
   - id: linx_driver_catalog_tsv
     type: File
     outputBinding:
-      glob: $(inputs.output_dir_linx)/$(inputs.tumor_id).linx.driver.catalog.tsv.gz
+      glob: $(inputs.output_dir_linx)/$(inputs.tumor_sample_name).linx.driver.catalog.tsv.gz
     doc: File containing the driver catalog
 
   - id: amber_tar
@@ -238,4 +238,4 @@ outputs:
     doc: LINX compressed output folder
 
 doc: |
-  Run AMBER, COBALT, PURPLE and LINX
+  Run AMBER, COBALT, PURPLE and LINX on tumor-normal paired samples.

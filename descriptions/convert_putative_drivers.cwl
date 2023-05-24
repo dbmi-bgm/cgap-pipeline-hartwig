@@ -18,18 +18,18 @@ inputs:
     type: File
     inputBinding:
       prefix: --linx_drivers
-    doc: TODO
+    doc: File containing the driver catalog
 
-  - id: cgap_genes
+  - id: genes
     type: File
     inputBinding:
       prefix: --genes
-    doc: TODO
+    doc: File containing genes available on CGAP
 
 outputs:
   - id: chromoscope_drivers
     type: File
-    doc: TODO
+    doc: Chromoscope compatible output driver catalog
 
 doc: |
-  TODO
+  Convert driver catalog from PURPLE/LINX into a TSV file compatible with Chromoscope

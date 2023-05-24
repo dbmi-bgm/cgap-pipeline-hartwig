@@ -1,5 +1,6 @@
 import argparse
 import csv
+import re
 from granite.lib import vcf_parser
 
 SVTYPE = "SVTYPE"
@@ -133,7 +134,6 @@ class Bnd:
         except:
             return None
 
-
 class Converter:
     def __init__(self, bnds):
         """
@@ -173,9 +173,7 @@ class Converter:
         for pair in self.pairs:
             if not self.bnds[pair[0]].SGL:
                 record = self.create_paired_record(pair)
-
             else:
-                pass
                 record = self.create_single_breakend_record(pair)
             records.append(record)
 
@@ -205,6 +203,7 @@ class Converter:
 
         return record
 
+
     def create_paired_record(self, pair):
         """
         Convert mated SVs into a dictionary with keys that correspond to the BEDPE format
@@ -213,8 +212,14 @@ class Converter:
         @return:
         """
         record = BedpeRecord()
+
+        if self.bnds[pair[0]] > self.bnds[pair[1]]:
+            raise Exception("VCF file is not sorted! Please sort your file first.")
+
         pair1 = self.bnds[pair[0]]
         pair2 = self.bnds[pair[1]]
+
+
         chrom1 = pair1.CHROM
         chrom2 = pair2.CHROM
         strand1 = pair1.STRANDS[pair[1]]
@@ -248,13 +253,13 @@ class Converter:
         return record
 
 
-def vcf_scanner(vcf_input):
+
+def vcf_scanner(vcf):
     """
     Scans a VCF file and converts BND SVs into Bnd objects
     @param vcf_input: Path to the input VCF file
     @return: Dictionary of Bnd objects. Keys are IDs of the variants, values are Bnd objects.
     """
-    vcf = vcf_parser.Vcf(vcf_input)
     bnd_dict = {}
     for vnt_obj in vcf.parse_variants():
         if vnt_obj.get_tag_value(SVTYPE) == BND:
@@ -278,7 +283,8 @@ def bnd2bedpe(args):
         "svclass",
         "info",
     ]
-    bnd_dict = vcf_scanner(args["input"])
+    vcf = vcf_parser.Vcf(args["input"])
+    bnd_dict = vcf_scanner(vcf)
     converter = Converter(bnd_dict)
     converter.pair_bnds()
     records = converter.create_bedpe_records()

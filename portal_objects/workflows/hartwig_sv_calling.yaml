@@ -39,10 +39,10 @@ input:
   known_hotspot_file:
     argument_type: file.bedpe
 
-  tumor_id:
+  tumor_sample_name:
     argument_type: parameter.string
   
-  reference_id:
+  normal_sample_name:
     argument_type: parameter.string
 
 ## Output information #######################################
@@ -52,9 +52,15 @@ output:
 
   gridss_output_vcf:
     argument_type: file.vcf_gz
+    secondary_files:
+      - vcf_gz_tbi
   
-  gripss_vcf_filtered:
+  gripss_output_vcf_filtered:
     argument_type: file.vcf_gz
+    secondary_files:
+      - vcf_gz_tbi
   
-  gripss_vcf:
+  gripss_output_vcf:
     argument_type: file.vcf_gz
+    secondary_files:
+      - vcf_gz_tbi
