@@ -30,7 +30,7 @@ RUN apt-get update && \
     libssl-dev=1.1.1f-1ubuntu2.18 \
     zip=3.0-11build1 \
     libarchive-tools=3.4.0-2ubuntu1.2 \
-    libncurses5-dev=6.2-0ubuntu2  \
+    libncurses5-dev  \
     libbz2-dev=1.0.8-2 \
     liblzma-dev=5.2.4-1ubuntu1.1  \
     --no-install-recommends && \

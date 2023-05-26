@@ -99,4 +99,4 @@ $input_tumor_bam || exit 1
 -ref_genome_version $ref_genome_version || exit 1
 
 bgzip $gridss_output_vcf
-tabix $(gridss_output_vcf).gz
+tabix $gridss_output_vcf.gz
