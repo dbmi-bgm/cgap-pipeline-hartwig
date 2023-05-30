@@ -11,7 +11,7 @@ hints:
   - class: DockerRequirement
     dockerPull: ACCOUNT/bnd2bedpe:VERSION
 
-baseCommand: [/usr/local/bin/bnd2bedpe.py]
+baseCommand: [python3, /usr/local/bin/bnd2bedpe.py]
 
 inputs:
   - id: input_sv_vcf
@@ -21,7 +21,7 @@ inputs:
     doc: VCF file containing structural variants in the BND notation
 
   - id: output_bedpe
-    type: File
+    type: string
     inputBinding:
       prefix: --output
     default: "output.bedpe"

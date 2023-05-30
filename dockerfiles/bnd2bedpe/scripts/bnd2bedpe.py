@@ -213,9 +213,6 @@ class Converter:
         """
         record = BedpeRecord()
 
-        if self.bnds[pair[0]] > self.bnds[pair[1]]:
-            raise Exception("VCF file is not sorted! Please sort your file first.")
-
         pair1 = self.bnds[pair[0]]
         pair2 = self.bnds[pair[1]]
 

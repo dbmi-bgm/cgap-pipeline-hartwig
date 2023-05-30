@@ -11,7 +11,7 @@ hints:
   - class: DockerRequirement
     dockerPull: ACCOUNT/linx_drivers_to_chromoscope:VERSION
 
-baseCommand: [/usr/local/bin/convert_putative_drivers.py]
+baseCommand: [python3, /usr/local/bin/convert_putative_drivers.py]
 
 inputs:
   - id: linx_driver_catalog_tsv
@@ -29,6 +29,8 @@ inputs:
 outputs:
   - id: chromoscope_drivers
     type: File
+    outputBinding:
+      glob: chromoscope_linx_drivers.tsv
     doc: Chromoscope compatible output driver catalog
 
 doc: |
