@@ -216,6 +216,8 @@ class Converter:
         pair1 = self.bnds[pair[0]]
         pair2 = self.bnds[pair[1]]
 
+        if pair1.CHROM == pair2.CHROM and int(pair1.POS) > int(pair2.POS):
+            pair1, pair2 = pair2, pair1
 
         chrom1 = pair1.CHROM
         chrom2 = pair2.CHROM
