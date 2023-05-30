@@ -150,7 +150,7 @@ echo "Running PURPLE"
 -ref_genome $reference_genome \
 -ref_genome_version $genome_version \
 -ensembl_data_dir $ENSEMBL_DIR \
--input_somatic_vcf $SOMATIC_SV_VCF \
+-somatic_vcf $SOMATIC_SV_VCF \
 -somatic_sv_vcf $somatic_sv_vcf \
 -output_dir $output_dir_purple \
 -somatic_hotspots $somatic_hotspots \
