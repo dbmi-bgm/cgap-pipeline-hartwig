@@ -161,11 +161,19 @@ workflows:
     ## EC2 Configuration to use ########
     ####################################
     config:
-      instance_type: m5.4xlarge
+      instance_type:
+        - m5.4xlarge
+        - m5a.4xlarge
+        - c5n.4xlarge
+        - m5a.4xlarge
+        - c6i.8xlarge
+        - c6a.8xlarge
+        - m6a.4xlarge
+        - m6i.4xlarge
       ebs_size: 1.5x
       EBS_optimized: True
-      spot_instance: True
-      run_name: run_gridss
+      spot_instance: False
+      run_name: run_hartwig_sv_calling
       behavior_on_capacity_limit: wait_and_retry
 
   ## Workflow definition #####################
@@ -194,11 +202,15 @@ workflows:
     ## EC2 Configuration to use ########
     ####################################
     config:
-      instance_type: m5.4xlarge
+      instance_type:
+        - t3a.xlarge
+        - t3.xlarge
+        - t3.large
+        - t3a.large
       ebs_size: 1.5x
       EBS_optimized: True
       spot_instance: True
-      run_name: run_gridss
+      run_name: run_bnd2bedpe
       behavior_on_capacity_limit: wait_and_retry
 
 
@@ -308,16 +320,24 @@ workflows:
     ## EC2 Configuration to use ########
     ####################################
     config:
-      instance_type: t3.small
+      instance_type:
+        - m5.4xlarge
+        - m5a.4xlarge
+        - c5n.4xlarge
+        - m5a.4xlarge
+        - c6i.8xlarge
+        - c6a.8xlarge
+        - m6a.4xlarge
+        - m6i.4xlarge
       ebs_size: 1.5x
       EBS_optimized: True
       spot_instance: True
-      run_name: run_bnd2bedpe
+      run_name: run_hartwig_cnv_sv_interpretation
       behavior_on_capacity_limit: wait_and_retry
 
-## Workflow definition #####################
-#   drivers_to_chromoscope_tsv
-############################################
+  ## Workflow definition #####################
+  #   drivers_to_chromoscope_tsv
+  ############################################
   drivers_to_chromoscope_tsv:
 
       ## Specific arguments ##############
@@ -344,9 +364,13 @@ workflows:
       ## EC2 Configuration to use ########
       ####################################
       config:
-        instance_type: t3.xlarge
+        instance_type:
+          - t3a.xlarge
+          - t3.xlarge
+          - t3.large
+          - t3a.large
         ebs_size: 1.5x
         EBS_optimized: True
         spot_instance: True
-        run_name: run_cobalt_purple_linx
+        run_name: run_drivers_to_chromoscope_tsv
         behavior_on_capacity_limit: wait_and_retry
