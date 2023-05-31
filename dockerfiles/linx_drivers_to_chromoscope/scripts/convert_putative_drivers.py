@@ -54,7 +54,12 @@ def convert_linx_drivers(args):
     putative_drivers["maxCopyNumber"] = putative_drivers["maxCopyNumber"].apply(
         lambda x: round(x, 1)
     )
-    putative_drivers[chromoscope_fields].to_csv(args["output"], sep="\t", index=False)
+    putative_drivers[chromoscope_fields].to_csv(
+        args["output"],
+        sep="\t",
+        index=False,
+        compression={"method": "gzip", "compresslevel": 1, "mtime": 1},
+    )
 
 
 if __name__ == "__main__":
@@ -70,7 +75,7 @@ if __name__ == "__main__":
         help="Genes information used to calculate the midpoint of the driver genes.",
     )
     parser.add_argument(
-        "--output", "-o", help="Output file", default="chromoscope_linx_drivers.tsv"
+        "--output", "-o", help="Output file", default="chromoscope_linx_drivers.tsv.gz"
     )
     args = parser.parse_args()
     convert_linx_drivers(vars(args))
