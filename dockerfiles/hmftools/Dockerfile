@@ -22,7 +22,9 @@ WORKDIR ${WORKDIR}
 
 
 RUN apt-get update && \
-    apt-get install -y openjdk-11-jdk ca-certificates-java tabix && \
+    apt-get install -y openjdk-11-jdk=11.0.19+7~us1-0ubuntu1~20.04.1 \
+    ca-certificates-java=20190405ubuntu1.1 \
+    tabix=1.10.2-3ubuntu0.1 && \
     apt-get clean && \
     update-ca-certificates -f
 

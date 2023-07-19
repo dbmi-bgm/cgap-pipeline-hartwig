@@ -108,7 +108,7 @@ tar -xzf $ensembl_data --directory $ENSEMBL_DIR
 echo "Unzipping driver gene panel"
 gunzip -c $driver_gene_panel > $DRIVER_GENE_PANEL_TSV
 
-echo "Filtering SV variants -- SNVs, INDELs, PASS only"
+echo "Filtering somatic variants -- SNVs, INDELs, PASS only"
 python3 /usr/local/bin/filter_variants.py -i $input_somatic_vcf -o ind snv --pass_only --prefix $FILTER_VCF
 
 echo "Removing non standard chromosomes"
