@@ -23,7 +23,7 @@ uuid: a5157092-c781-4357-89fe-39162c87f00c
 ################################################################
 name: csv
 extension: csv
-description: Format used to represent Comma-Separated Values (CSV).
+description: File format used to represent Comma-Separated Values (CSV).
 uuid: 7de2de86-9c45-4872-b7aa-dc1d6751d96d
 
 ---

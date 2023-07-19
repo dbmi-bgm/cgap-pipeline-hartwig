@@ -26,14 +26,14 @@ input:
   input_tumor_bam:
     argument_type: file.bam
 
+  input_normal_bam:
+    argument_type: file.bam
+
   loci_file:
     argument_type: file.vcf_gz
 
   reference_genome:
     argument_type: file.fa
-
-  input_normal_bam:
-    argument_type: file.bam
 
   gc_profile:
     argument_type: file.cnp

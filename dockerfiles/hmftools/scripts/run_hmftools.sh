@@ -98,7 +98,7 @@ done
 
 FILTER_VCF="filtered_vcf"
 ENSEMBL_DIR="ensembl_data"
-SOMATIC_SV_VCF="somatic_sv.vcf"
+SOMATIC_VCF="somatic_snv_indel.vcf"
 DRIVER_GENE_PANEL_TSV="gene_panel.tsv"
 
 echo "Unzipping ENSEMBL data"
@@ -112,7 +112,7 @@ echo "Filtering SV variants -- SNVs, INDELs, PASS only"
 python3 /usr/local/bin/filter_variants.py -i $input_somatic_vcf -o ind snv --pass_only --prefix $FILTER_VCF
 
 echo "Removing non standard chromosomes"
-python3  /usr/local/bin/remove_non_std_chroms.py -i ${FILTER_VCF}_ind_snv.vcf.gz -o $SOMATIC_SV_VCF
+python3  /usr/local/bin/remove_non_std_chroms.py -i ${FILTER_VCF}_ind_snv.vcf.gz -o $SOMATIC_VCF
 
 echo "Running AMBER"
 /usr/lib/jvm/java-11-openjdk-amd64/bin/java \
@@ -150,7 +150,7 @@ echo "Running PURPLE"
 -ref_genome $reference_genome \
 -ref_genome_version $genome_version \
 -ensembl_data_dir $ENSEMBL_DIR \
--somatic_vcf $SOMATIC_SV_VCF \
+-somatic_vcf $SOMATIC_VCF \
 -somatic_sv_vcf $somatic_sv_vcf \
 -output_dir $output_dir_purple \
 -somatic_hotspots $somatic_hotspots \

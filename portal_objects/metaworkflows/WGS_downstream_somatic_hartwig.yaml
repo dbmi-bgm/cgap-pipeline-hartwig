@@ -165,12 +165,10 @@ workflows:
         - m5.4xlarge
         - m5a.4xlarge
         - c5n.4xlarge
-        - m5a.4xlarge
         - c6i.8xlarge
-        - c6a.8xlarge
         - m6a.4xlarge
         - m6i.4xlarge
-      ebs_size: 1.5x
+      ebs_size: 3x
       EBS_optimized: True
       spot_instance: False
       run_name: run_hartwig_sv_calling
@@ -207,13 +205,11 @@ workflows:
         - t3.xlarge
         - t3.large
         - t3a.large
-      ebs_size: 1.5x
+      ebs_size: 3x
       EBS_optimized: True
-      spot_instance: True
+      spot_instance: False
       run_name: run_bnd2bedpe
       behavior_on_capacity_limit: wait_and_retry
-
-
 
   ## Workflow definition #####################
   #   hartwig_cnv_sv_interpretation
@@ -322,16 +318,15 @@ workflows:
     config:
       instance_type:
         - m5.4xlarge
-        - m5a.4xlarge
         - c5n.4xlarge
         - m5a.4xlarge
         - c6i.8xlarge
         - c6a.8xlarge
         - m6a.4xlarge
         - m6i.4xlarge
-      ebs_size: 1.5x
+      ebs_size: 3x
       EBS_optimized: True
-      spot_instance: True
+      spot_instance: False
       run_name: run_hartwig_cnv_sv_interpretation
       behavior_on_capacity_limit: wait_and_retry
 
@@ -369,8 +364,8 @@ workflows:
           - t3.xlarge
           - t3.large
           - t3a.large
-        ebs_size: 1.5x
+        ebs_size: 3x
         EBS_optimized: True
-        spot_instance: True
+        spot_instance: False
         run_name: run_drivers_to_chromoscope_tsv
         behavior_on_capacity_limit: wait_and_retry

@@ -30,7 +30,7 @@ outputs:
   - id: chromoscope_drivers
     type: File
     outputBinding:
-      glob: chromoscope_linx_drivers.tsv
+      glob: chromoscope_linx_drivers.tsv.gz
     doc: Chromoscope compatible output driver catalog
 
 doc: |
