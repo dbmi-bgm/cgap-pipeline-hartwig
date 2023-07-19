@@ -26,8 +26,8 @@ RUN apt-get update && \
     libarchive-tools=3.4.0-2ubuntu1.2 \
     zlib1g-dev=1:1.2.11.dfsg-2ubuntu1.5 \
     liblz4-tool=1.9.2-2ubuntu0.20.04.1 \
-    libcurl4-openssl-dev=7.68.0-1ubuntu2.18 \
-    libssl-dev=1.1.1f-1ubuntu2.18 \
+    libcurl4-openssl-dev=7.68.0-1ubuntu2.19\
+    libssl-dev=1.1.1f-1ubuntu2.19 \
     zip=3.0-11build1 \
     libarchive-tools=3.4.0-2ubuntu1.2 \
     libncurses5-dev  \
