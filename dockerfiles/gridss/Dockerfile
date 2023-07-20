@@ -59,10 +59,12 @@ RUN ln -s bwa-0.7.17 bwa
 
 RUN conda install -c bioconda -y r-base==4.1.0
 
-COPY software/${GRIDSS_JAR} .
-COPY software/${GRIPSS_JAR} .
+RUN wget https://github.com/PapenfussLab/gridss/releases/download/v2.13.2/gridss-2.13.2-gridss-jar-with-dependencies.jar
+RUN mv gridss-2.13.2-gridss-jar-with-dependencies.jar ${GRIDSS_JAR}
 
-COPY software/gridss . 
+RUN wget https://github.com/hartwigmedical/hmftools/releases/download/gripss-v2.3.2/gripss_v2.3.2.jar
+
+RUN wget https://github.com/PapenfussLab/gridss/releases/download/v2.13.2/gridss
 RUN chmod +x gridss
 
 COPY scripts/run_gridss_gripss.sh . 

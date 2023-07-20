@@ -42,11 +42,11 @@ RUN pip install granite-suite==0.2.0
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
 RUN export JAVA_HOME
 
-COPY software/${AMBER_JAR} .
-COPY software/${COBALT_JAR} .
-COPY software/${PURPLE_JAR} .
-COPY software/${LINX_JAR} .
-COPY software/circos-0.69-9.tgz .
+RUN wget https://github.com/hartwigmedical/hmftools/releases/download/amber-v3.9/amber-3.9.jar
+RUN wget https://github.com/hartwigmedical/hmftools/releases/download/cobalt-v1.13/cobalt-1.13.jar
+RUN wget https://github.com/hartwigmedical/hmftools/releases/download/purple-v3.8.1/purple_v3.8.1.jar
+RUN wget https://github.com/hartwigmedical/hmftools/releases/download/linx-v1.22/linx_v1.22.jar
+RUN wget http://circos.ca/distribution/circos-0.69-9.tgz
 
 COPY scripts/run_hmftools.sh .
 COPY scripts/filter_variants.py .
