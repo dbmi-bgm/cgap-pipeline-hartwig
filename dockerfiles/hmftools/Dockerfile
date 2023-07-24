@@ -51,6 +51,7 @@ RUN wget http://circos.ca/distribution/circos-0.69-9.tgz
 COPY scripts/run_hmftools.sh .
 COPY scripts/filter_variants.py .
 COPY scripts/remove_non_std_chroms.py .
+COPY scripts/check_samples_order_vcf.py .
 
 RUN tar -xf circos-0.69-9.tgz
 

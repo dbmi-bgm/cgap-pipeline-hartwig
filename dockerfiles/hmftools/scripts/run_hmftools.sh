@@ -96,9 +96,10 @@ while [ "$1" != "" ]; do
 done
 
 
-FILTER_VCF="filtered_vcf"
+FILTER_VCF_PREFIX="filtered_vcf"
 ENSEMBL_DIR="ensembl_data"
-SOMATIC_VCF="somatic_snv_indel.vcf"
+SOMATIC_VCF_STD_CHROMS="somatic_snv_indel_std_chroms.vcf"
+SOMATIC_VCF_PURPLE="somatic_snv_indel_purple.vcf"
 DRIVER_GENE_PANEL_TSV="gene_panel.tsv"
 
 echo "Unzipping ENSEMBL data"
@@ -109,10 +110,13 @@ echo "Unzipping driver gene panel"
 gunzip -c $driver_gene_panel > $DRIVER_GENE_PANEL_TSV
 
 echo "Filtering somatic variants -- SNVs, INDELs, PASS only"
-python3 /usr/local/bin/filter_variants.py -i $input_somatic_vcf -o ind snv --pass_only --prefix $FILTER_VCF
+python3 /usr/local/bin/filter_variants.py -i $input_somatic_vcf -o ind snv --pass_only --prefix $FILTER_VCF_PREFIX
 
 echo "Removing non standard chromosomes"
-python3  /usr/local/bin/remove_non_std_chroms.py -i ${FILTER_VCF}_ind_snv.vcf.gz -o $SOMATIC_VCF
+python3  /usr/local/bin/remove_non_std_chroms.py -i ${FILTER_VCF_PREFIX}_ind_snv.vcf.gz -o SOMATIC_VCF_STD_CHROMS
+
+echo "Checking the order os samples in the somatic VCF (SNVs and INDELs)"
+python3 /usr/local/bin/check_samples_order_vcf.py -i $SOMATIC_VCF_STD_CHROMS -o $SOMATIC_VCF_PURPLE -o $normal_sample_name $tumor_sample_name
 
 echo "Running AMBER"
 /usr/lib/jvm/java-11-openjdk-amd64/bin/java \
@@ -150,7 +154,7 @@ echo "Running PURPLE"
 -ref_genome $reference_genome \
 -ref_genome_version $genome_version \
 -ensembl_data_dir $ENSEMBL_DIR \
--somatic_vcf $SOMATIC_VCF \
+-somatic_vcf $SOMATIC_VCF_PURPLE \
 -somatic_sv_vcf $somatic_sv_vcf \
 -output_dir $output_dir_purple \
 -somatic_hotspots $somatic_hotspots \
