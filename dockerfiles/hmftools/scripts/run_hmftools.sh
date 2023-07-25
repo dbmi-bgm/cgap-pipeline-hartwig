@@ -115,7 +115,7 @@ python3 /usr/local/bin/filter_variants.py -i $input_somatic_vcf -o ind snv --pas
 echo "Removing non standard chromosomes"
 python3  /usr/local/bin/remove_non_std_chroms.py -i ${FILTER_VCF_PREFIX}_ind_snv.vcf.gz -o $SOMATIC_VCF_STD_CHROMS || exit 1
 
-echo "Checking the order os samples in the somatic VCF (SNVs and INDELs)"
+echo "Checking the order of samples in the somatic VCF (SNVs and INDELs)"
 python3 /usr/local/bin/check_samples_order_vcf.py -i $SOMATIC_VCF_STD_CHROMS -o $SOMATIC_VCF_PURPLE -r $normal_sample_name $tumor_sample_name || exit 1
 
 echo "Running AMBER"
