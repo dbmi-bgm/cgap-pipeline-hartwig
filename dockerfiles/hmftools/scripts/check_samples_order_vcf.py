@@ -10,6 +10,14 @@ from granite.lib import vcf_parser
 import argparse
 
 def write_variant(vnt_obj, ID_list, output):
+    """Reorder the sample columns according to the ID_list and write the variant to a file
+    :param vnt_obj: Variant object
+    :type vnt_obj: vcf_parser.Vcf
+    :param ID_list: List of sample IDs in the expected order
+    :type ID_list: list
+    :param output: output file buffer
+    :type output: io.TextIOWrapper
+    """
     variant_as_list = [vnt_obj.CHROM,
                        str(vnt_obj.POS),
                        vnt_obj.ID,
@@ -26,26 +34,32 @@ def write_variant(vnt_obj, ID_list, output):
     output.write("\t".join(variant_as_list))
 
 def main(args):
+
     output_file = args["outputfile"]
     order = args["order"]
     vcf = vcf_parser.Vcf(args["inputfile"])
 
     vcf_columns = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT']
+
     if len(order) != len(vcf.header.IDs_genotypes):
         raise Exception(f"Wrong number of sample IDs. Provided IDs {order}, actual IDs: {vcf.header.IDs_genotypes}")
     for ID in order:
         if ID not in vcf.header.IDs_genotypes:
-            raise Exception(f"Missing ID {ID}")
+            raise Exception(f"Missing ID {ID} in {vcf.header.IDs_genotypes}")
 
     with open(output_file, "w") as output:
-        vcf_obj = vcf_parser.Vcf(args['inputfile'])
-        vcf_obj.write_definitions(output)
-        vcf_columns += order
 
+        vcf_obj = vcf_parser.Vcf(args['inputfile'])
+        #write the header
+        vcf_obj.write_definitions(output)
+
+        #modify the sample columns
+        vcf_columns += order
         vcf_columns[-1] = vcf_columns[-1] + "\n"
 
         output.write("\t".join(vcf_columns))
 
+        #parsing the VCF file
         for vnt_obj in vcf_obj.parse_variants():
             write_variant(vnt_obj, order, output)
 
