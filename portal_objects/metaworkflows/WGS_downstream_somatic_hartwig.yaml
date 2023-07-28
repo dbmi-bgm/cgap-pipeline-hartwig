@@ -320,7 +320,7 @@ workflows:
 
       purple_tar:
         file_type: tar gz
-        s3_lifecycle_category: short_term_access_long_term_archive
+        s3_lifecycle_category: long_term_access_long_term_archive
         description: PURPLE compressed output folder
 
       linx_tar:
