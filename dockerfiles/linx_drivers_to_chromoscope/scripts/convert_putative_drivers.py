@@ -44,8 +44,9 @@ def convert_linx_drivers(args):
         {True: "yes", False: "no"}
     )
 
+    print(putative_drivers)
     # check if there is the chr prefix and add it if it's not
-    putative_drivers["chr"] = putative_drivers["chr"].apply(
+    putative_drivers["chr"] = putative_drivers["chromosome"].apply(
         lambda x: x if x.startswith("chr") == True else f"chr{x}"
     )
     putative_drivers["minCopyNumber"] = putative_drivers["minCopyNumber"].apply(
